@@ -2,7 +2,11 @@ import { Circle, Trash } from '@phosphor-icons/react'
 
 import styles from './TasksList.module.css'
 
-export function TasksList() {
+interface TasksListProps {
+  tasks: Array<string>
+}
+
+export function TasksList({ tasks }: TasksListProps) {
   return (
     <main className={styles.container}>
       <header className={styles.header}>
@@ -18,13 +22,17 @@ export function TasksList() {
       </header>
 
       <ul className={styles.list}>
-        <li className={styles.taskItem}>
-          <Circle size={20} color='#4EA8DE' />
-          <span>Aprender React</span>
-          <button className={styles.removeButton}>
-            <Trash size={20} />
-          </button>
-        </li>
+        {tasks.map(task => {
+          return (
+            <li key={task} className={styles.taskItem}>
+              <Circle size={20} color='#4EA8DE' />
+              <span>{task}</span>
+              <button className={styles.removeButton}>
+                <Trash size={20} />
+              </button>
+            </li>
+          )
+        })}
       </ul>
     </main>
   )

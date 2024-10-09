@@ -3,7 +3,11 @@ import { useState, ChangeEvent, FormEvent } from 'react'
 import { PlusCircle } from '@phosphor-icons/react'
 import styles from './AddTask.module.css'
 
-export function AddTask() {
+interface AddTaskProps {
+  onAddTask: (task: string) => void
+}
+
+export function AddTask({ onAddTask }: AddTaskProps) {
   const [taskInput, setTaskInput] = useState("")
 
   function handleTaskInput(event: ChangeEvent<HTMLInputElement>) {
@@ -16,7 +20,7 @@ export function AddTask() {
 
     if (!taskInput) return
 
-    console.log(`Adicionando a tarefa ${taskInput} na lista de tarefas`)
+    onAddTask(taskInput)
 
     setTaskInput("")
   }
