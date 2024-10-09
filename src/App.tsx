@@ -16,11 +16,17 @@ function App() {
     setTasks(newTasks)
   }
 
+  function removeTask(taskToRemove: string) {
+    const newTasks = tasks.filter(task => task != taskToRemove)
+
+    setTasks(newTasks)
+  }
+
   return (
     <>
       <Header />
       <AddTask onAddTask={addTask} />
-      <TasksList tasks={tasks} />
+      <TasksList tasks={tasks} onRemoveTask={removeTask} />
     </>
   )
 }

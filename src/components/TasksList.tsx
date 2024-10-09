@@ -3,10 +3,11 @@ import { Circle, Trash } from '@phosphor-icons/react'
 import styles from './TasksList.module.css'
 
 interface TasksListProps {
-  tasks: Array<string>
+  tasks: Array<string>,
+  onRemoveTask: (taskToRemove: string) => void
 }
 
-export function TasksList({ tasks }: TasksListProps) {
+export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
   return (
     <main className={styles.container}>
       <header className={styles.header}>
@@ -27,7 +28,10 @@ export function TasksList({ tasks }: TasksListProps) {
             <li key={task} className={styles.taskItem}>
               <Circle size={20} color='#4EA8DE' />
               <span>{task}</span>
-              <button className={styles.removeButton}>
+              <button 
+                onClick={() => onRemoveTask(task)} 
+                className={styles.removeButton}
+              >
                 <Trash size={20} />
               </button>
             </li>
