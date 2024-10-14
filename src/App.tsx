@@ -6,18 +6,37 @@ import { TasksList } from './components/TasksList'
 
 import './global.css'
 
-function App() {
-  const [tasks, setTasks] = useState<string[]>([])
+export interface TaskType {
+  text: string,
+  isDone: boolean
+}
 
-  function addTask(task: string) {
+function App() {
+  const [tasks, setTasks] = useState<TaskType[]>([])
+
+  function addTask(taskText: string) {
     const newTasks = [...tasks]
-    newTasks.push(task)
+    
+    newTasks.push({
+      text: taskText,
+      isDone: false
+    })
 
     setTasks(newTasks)
   }
 
   function removeTask(taskToRemove: string) {
-    const newTasks = tasks.filter(task => task != taskToRemove)
+    const newTasks = tasks.filter(task => task.text != taskToRemove)
+
+    setTasks(newTasks)
+  }
+
+  function toggleTaskIsDone(taskToToggle: string) {
+    const newTasks = [...tasks]
+
+    newTasks.forEach(task => {
+      if (task.text === taskToToggle) task.isDone = !task.isDone
+    })
 
     setTasks(newTasks)
   }
@@ -26,7 +45,11 @@ function App() {
     <>
       <Header />
       <AddTask onAddTask={addTask} />
-      <TasksList tasks={tasks} onRemoveTask={removeTask} />
+      <TasksList 
+        tasks={tasks} 
+        onRemoveTask={removeTask} 
+        onToggleTaskIsDone={toggleTaskIsDone} 
+      />
     </>
   )
 }

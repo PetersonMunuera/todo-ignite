@@ -1,16 +1,23 @@
 import { CheckCircle, Circle, Trash } from '@phosphor-icons/react'
+import { TaskType } from '../App'
 
 import clipboardImg from '../assets/clipboard.svg'
 import styles from './TasksList.module.css'
 
 interface TasksListProps {
-  tasks: Array<string>,
+  tasks: Array<TaskType>,
   onRemoveTask: (taskToRemove: string) => void
+  onToggleTaskIsDone: (taskToToggle: string) => void
 }
 
-const isTaskDone = false
+export function TasksList({ 
+  tasks, 
+  onRemoveTask, 
+  onToggleTaskIsDone 
+}: TasksListProps) {
 
-export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
+  const tasksDoneNumber = tasks.filter(task => task.isDone).length
+
   return (
     <main className={styles.container}>
       <header className={styles.header}>
@@ -21,7 +28,7 @@ export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
 
         <div className={styles.completedTasks}>
           <strong>Concluídas</strong>
-          <span>{tasks.length ? `2 de ${tasks.length}` : 0}</span>
+          <span>{tasks.length ? `${tasksDoneNumber} de ${tasks.length}` : 0}</span>
         </div>
       </header>
 
@@ -29,17 +36,23 @@ export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
         <ul className={styles.list}>
           {tasks.map(task => {
             return (
-              <li key={task} className={`${styles.taskItem} ${isTaskDone && styles.isDone}`}>
-                <button className={styles.checkButton}>
+              <li 
+                key={task.text} 
+                className={`${styles.taskItem} ${task.isDone && styles.isDone}`}
+              >
+                <button 
+                  className={styles.checkButton} 
+                  onClick={() => onToggleTaskIsDone(task.text)}
+                >
                   {
-                    !isTaskDone
+                    !task.isDone
                       ? <Circle size={20} />
                       : <CheckCircle size={20} weight="fill" />
                   }
                 </button>
-                <span>{task}</span>
+                <span>{task.text}</span>
                 <button
-                  onClick={() => onRemoveTask(task)}
+                  onClick={() => onRemoveTask(task.text)}
                   className={styles.removeButton}
                 >
                   <Trash size={20} />
