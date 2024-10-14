@@ -1,4 +1,4 @@
-import { Circle, Trash } from '@phosphor-icons/react'
+import { CheckCircle, Circle, Trash } from '@phosphor-icons/react'
 
 import clipboardImg from '../assets/clipboard.svg'
 import styles from './TasksList.module.css'
@@ -7,6 +7,8 @@ interface TasksListProps {
   tasks: Array<string>,
   onRemoveTask: (taskToRemove: string) => void
 }
+
+const isTaskDone = false
 
 export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
   return (
@@ -27,8 +29,14 @@ export function TasksList({ tasks, onRemoveTask }: TasksListProps) {
         <ul className={styles.list}>
           {tasks.map(task => {
             return (
-              <li key={task} className={styles.taskItem}>
-                <Circle size={20} color='#4EA8DE' />
+              <li key={task} className={`${styles.taskItem} ${isTaskDone && styles.isDone}`}>
+                <button className={styles.checkButton}>
+                  {
+                    !isTaskDone
+                      ? <Circle size={20} />
+                      : <CheckCircle size={20} weight="fill" />
+                  }
+                </button>
                 <span>{task}</span>
                 <button
                   onClick={() => onRemoveTask(task)}
